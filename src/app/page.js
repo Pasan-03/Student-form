@@ -1,4 +1,3 @@
-// src/app/page.js
 "use client";
 import './globals.css';
 import { useState } from "react";
@@ -20,10 +19,23 @@ export default function StudentForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Add your form submission logic here
+
+    try {
+      const response = await fetch('/api/submitForm', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      console.log(result.message);
+    } catch (error) {
+      console.error('Error submitting the form:', error);
+    }
   };
 
   return (
